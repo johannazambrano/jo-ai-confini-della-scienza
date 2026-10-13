@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:,">
+<style>
+:root {
+    --bg: #f6f8fd; --surface: #ffffff; --line: #dde4f2;
+    --ink: #0f172a; --ink-3: #64748b;
+    --glow1: rgba(56,189,248,.20); --glow2: rgba(192,132,252,.18); --glow3: rgba(251,146,60,.14);
+    --shadow: 0 2px 4px rgba(15,23,42,.05), 0 18px 40px rgba(30,41,90,.12);
+    color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #070913; --surface: #0f172a; --line: #1f2a44;
+        --ink: #f1f5f9; --ink-3: #94a3b8;
+        --glow1: rgba(56,189,248,.14); --glow2: rgba(192,132,252,.14); --glow3: rgba(251,146,60,.09);
+        --shadow: 0 2px 4px rgba(0,0,0,.5), 0 18px 40px rgba(0,0,0,.5);
+        color-scheme: dark;
+    }
+}
+:root[data-theme="dark"] {
+        --bg: #070913; --surface: #0f172a; --line: #1f2a44;
+        --ink: #f1f5f9; --ink-3: #94a3b8;
+        --glow1: rgba(56,189,248,.14); --glow2: rgba(192,132,252,.14); --glow3: rgba(251,146,60,.09);
+        --shadow: 0 2px 4px rgba(0,0,0,.5), 0 18px 40px rgba(0,0,0,.5);
+        color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--ink); overflow: hidden;
+    display: grid; place-items: center; padding: 24px; -webkit-font-smoothing: antialiased;
+}
+body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none;
+    background:
+        radial-gradient(60rem 30rem at 90% -10%, var(--glow1), transparent 60%),
+        radial-gradient(50rem 30rem at -10% 40%, var(--glow2), transparent 60%),
+        radial-gradient(50rem 30rem at 100% 100%, var(--glow3), transparent 60%);
+}
+
+main { position: relative; width: min(980px, 100%); display: grid; gap: clamp(24px, 5vh, 48px); text-align: center; justify-items: center; }
+.lead { font-size: clamp(1.5rem, 4.6vw, 3rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; text-wrap: balance; max-width: 18em; }
+.grad { background: linear-gradient(90deg, #0284c7, #7c3aed 55%, #e11d48); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.clock { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 2vw, 20px); width: 100%; }
+.unit {
+    background: var(--surface); border: 1px solid var(--line); border-radius: clamp(16px, 3vw, 28px);
+    box-shadow: var(--shadow); padding: clamp(16px, 4vw, 40px) 8px;
+}
+.unit b { display: block; font-size: clamp(2.2rem, 9vw, 5.5rem); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+.unit span { display: block; margin-top: 10px; font-size: clamp(.62rem, 1.6vw, .85rem); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+.done { font-size: clamp(1.4rem, 4vw, 2.4rem); font-weight: 800; }
+@media (prefers-reduced-motion: no-preference) { .unit b.tick { animation: pulse .35s; } @keyframes pulse { 40% { transform: scale(1.06); } } }
+.theme-btn {
+    position: fixed; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 1.1rem; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink); box-shadow: var(--shadow); opacity: .7; transition: opacity .2s, transform .2s;
+}
+.theme-btn:hover, .theme-btn:focus-visible { opacity: 1; transform: scale(1.08); }
+</style>
+</head>
+<body>
+<button class="theme-btn" id="theme-btn" type="button" aria-label="Cambia tema"></button>
+<main>
+    <p class="lead">Quanto manca alla gita del <span class="grad">24 ottobre</span></p>
+    <div class="clock" id="clock" role="timer" aria-live="off"></div>
+</main>
+
+<script>
+// Inizio: sabato 24 ottobre 2026, ore 16:00 (ora locale)
+const START = new Date(2026, 9, 24, 16, 0, 0);
+const END = new Date(2026, 9, 24, 22, 30, 0);
+const clock = document.getElementById('clock');
+
+/* Tema: segue il sistema, il pulsante in alto a destra lo cambia (e ricorda la scelta) */
+const root = document.documentElement, btn = document.getElementById('theme-btn');
+let theme = null;
+try { theme = localStorage.getItem('theme'); } catch (e) {}
+function current() { return theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+function applyTheme() {
+    const t = current();
+    root.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    btn.setAttribute('aria-label', t === 'dark' ? 'Passa al tema chiaro' : 'Passa al tema scuro');
+}
+btn.addEventListener('click', () => {
+    theme = current() === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    applyTheme();
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+applyTheme();
+let last = {};
+
+function render() {
+    const now = new Date();
+    if (now >= END) { clock.innerHTML = '<p class="done" style="grid-column:1/-1">È stata una bellissima giornata ✨</p>'; return; }
+    if (now >= START) { clock.innerHTML = '<p class="done" style="grid-column:1/-1">È il momento! Buon divertimento 🎉</p>'; return; }
+    let s = Math.floor((START - now) / 1000);
+    const v = { giorni: Math.floor(s / 86400) }; s %= 86400;
+    v.ore = Math.floor(s / 3600); s %= 3600;
+    v.minuti = Math.floor(s / 60); v.secondi = s % 60;
+    if (!clock.children.length || clock.querySelector('.done')) {
+        clock.innerHTML = Object.keys(v).map(k => `<div class="unit"><b data-k="${k}"></b><span>${k}</span></div>`).join('');
+    }
+    Object.entries(v).forEach(([k, n]) => {
+        const el = clock.querySelector(`[data-k="${k}"]`), txt = String(n).padStart(2, '0');
+        if (last[k] !== txt) { el.textContent = txt; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); last[k] = txt; }
+    });
+}
+render(); setInterval(render, 1000);
+</script>
+</body>
+</html>

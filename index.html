@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⭐ Jo ai confini della scienza ⭐</title>
+<meta name="description" content="Guida ai 10 tavoli tematici di NEXUS – Ai Confini della Scienza, Osservatorio Astronomico di Monte Viseggi, La Spezia.">
+<script>
+(function () {
+    var t = null;
+    try { t = localStorage.getItem('nexus-theme'); } catch (e) {}
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+:root {
+    --bg: #f6f8fd;
+    --surface: #ffffff;
+    --surface-2: #eef2fb;
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-3: #64748b;
+    --line: #dde4f2;
+    --space: #070913;
+    --cyan: #0284c7;
+    --cyan-soft: #e0f2fe;
+    --purple: #7c3aed;
+    --purple-soft: #ede9fe;
+    --orange: #ea580c;
+    --orange-soft: #ffedd5;
+    --pink: #e11d48;
+    --radius: 20px;
+    --glass: rgba(255,255,255,.92);
+    --header-bg: rgba(255,255,255,.82);
+    --menu-bg: #ffffff;
+    --on-ink: #ffffff;
+    --note-line: #c7d2fe; --note-ink: #075985;
+    --badge-line: #fdba74; --badge-ink: #c2410c;
+    --cur-line: #ddd6fe; --cur-ink: #4c1d95;
+    --exp-line: #bae6fd;
+    --ico-grad: linear-gradient(135deg, #bae6fd, #ddd6fe);
+    --card-hover: #7dd3fc;
+    --neb1: rgba(56,189,248,.16); --neb2: rgba(192,132,252,.14); --neb3: rgba(251,146,60,.11);
+    color-scheme: light;
+    --shadow: 0 1px 2px rgba(15,23,42,.05), 0 8px 24px rgba(30,41,90,.08);
+    --shadow-lg: 0 2px 4px rgba(15,23,42,.06), 0 18px 40px rgba(30,41,90,.14);
+}
+[data-theme="dark"] {
+    --bg: #070913; --surface: #0f172a; --surface-2: #172036;
+    --ink: #f1f5f9; --ink-2: #cbd5e1; --ink-3: #94a3b8; --line: #1f2a44;
+    --cyan: #38bdf8; --cyan-soft: rgba(56,189,248,.13);
+    --purple: #c084fc; --purple-soft: rgba(192,132,252,.15);
+    --orange: #fb923c; --orange-soft: rgba(251,146,60,.15);
+    --glass: rgba(15,23,42,.88); --header-bg: rgba(7,9,19,.8); --menu-bg: #0b1020;
+    --on-ink: #070913;
+    --note-line: rgba(129,140,248,.35); --note-ink: #7dd3fc;
+    --badge-line: rgba(251,146,60,.45); --badge-ink: #fdba74;
+    --cur-line: rgba(192,132,252,.35); --cur-ink: #e9d5ff;
+    --exp-line: rgba(56,189,248,.35);
+    --ico-grad: linear-gradient(135deg, rgba(56,189,248,.3), rgba(192,132,252,.3));
+    --card-hover: rgba(56,189,248,.55);
+    --neb1: rgba(56,189,248,.12); --neb2: rgba(192,132,252,.12); --neb3: rgba(251,146,60,.08);
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    --shadow-lg: 0 2px 4px rgba(0,0,0,.5), 0 18px 40px rgba(0,0,0,.5);
+    color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+body::before { /* soft light "nebula" */
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+        radial-gradient(60rem 30rem at 90% -10%, var(--neb1), transparent 60%),
+        radial-gradient(50rem 30rem at -10% 30%, var(--neb2), transparent 60%),
+        radial-gradient(50rem 30rem at 100% 90%, var(--neb3), transparent 60%);
+}
+#stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; }
+[data-theme="dark"] #stars { display: block; }
+img { max-width: 100%; display: block; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+a { color: var(--cyan); }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; border-radius: 8px; }
+.container { width: min(1200px, 100% - 32px); margin-inline: auto; position: relative; z-index: 1; }
+.eyebrow { font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+.grad-text { background: linear-gradient(90deg, #0284c7, #7c3aed 55%, #e11d48); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- Header ---------- */
+header.top {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--header-bg); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+}
+.top-inner { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.brand-logo {
+    width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem;
+    background: linear-gradient(135deg, #38bdf8, #7c3aed); box-shadow: 0 6px 16px rgba(2,132,199,.3);
+}
+.brand small { display: block; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); }
+.brand strong { font-size: 1.05rem; }
+nav.desktop { display: none; align-items: center; gap: 4px; margin-left: auto; }
+.actions { display: flex; align-items: center; gap: 6px; }
+.theme-btn { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.2rem; border: 1px solid var(--line); background: var(--surface); transition: transform .2s, background .2s; }
+.theme-btn:hover { transform: rotate(15deg) scale(1.08); background: var(--surface-2); }
+nav.desktop a, nav.desktop button.link {
+    padding: 8px 12px; border-radius: 10px; font-size: .88rem; font-weight: 500; color: var(--ink-2); text-decoration: none; transition: .15s;
+}
+nav.desktop a:hover { background: var(--cyan-soft); color: var(--cyan); }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: .92rem; transition: transform .15s, box-shadow .15s, background .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { color: #fff; background: linear-gradient(90deg, #0284c7, #4f46e5); box-shadow: 0 8px 20px rgba(2,132,199,.3); }
+.btn-party { color: #fff; background: linear-gradient(90deg, #ea580c, #e11d48 60%, #7c3aed); box-shadow: 0 8px 20px rgba(234,88,12,.28); }
+.btn-ghost { background: var(--surface); border: 1px solid var(--line); color: var(--cyan); box-shadow: var(--shadow); }
+.btn-sm { padding: 8px 16px; font-size: .84rem; border-radius: 12px; }
+.burger { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; color: var(--ink-2); }
+.burger:hover { background: var(--surface-2); }
+#mobile-menu { display: none; border-top: 1px solid var(--line); background: var(--menu-bg); padding: 8px 16px 16px; }
+#mobile-menu.open { display: block; }
+#mobile-menu a { display: block; padding: 12px; border-radius: 10px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
+#mobile-menu a:hover { background: var(--cyan-soft); color: var(--cyan); }
+#mobile-menu .btn { width: 100%; margin-top: 8px; }
+@media (min-width: 900px) { nav.desktop { display: flex; } .burger, #mobile-menu { display: none !important; } }
+
+html, body { height: 100%; }
+body { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+header.top { flex: none; }
+.deck {
+    flex: 1; min-height: 0; display: flex; overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain;
+    scrollbar-width: none; position: relative; z-index: 1;
+}
+.deck::-webkit-scrollbar { display: none; }
+.panel {
+    flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always;
+    overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+}
+.panel-in { margin: auto; width: min(1200px, 100% - 32px); padding: 28px 0 104px; display: grid; gap: 32px; }
+@media (min-width: 900px) { .panel-in { width: min(1200px, 100% - 140px); } }
+.deck-arrow {
+    position: fixed; top: 50%; z-index: 40; width: 48px; height: 48px; margin-top: -24px; border-radius: 50%;
+    display: none; place-items: center; font-size: 1.6rem; line-height: 1; color: var(--ink);
+    background: var(--glass); border: 1px solid var(--line); box-shadow: var(--shadow-lg); backdrop-filter: blur(8px);
+    transition: transform .2s, opacity .2s;
+}
+.deck-arrow:hover { transform: scale(1.1); }
+.deck-arrow.prev { left: 14px; } .deck-arrow.next { right: 14px; }
+.deck-arrow[disabled] { opacity: 0; pointer-events: none; }
+@media (min-width: 900px) { .deck-arrow { display: grid; } }
+.dots {
+    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 40;
+    display: flex; gap: 4px; padding: 6px; border-radius: 999px; background: var(--glass);
+    border: 1px solid var(--line); box-shadow: var(--shadow-lg); backdrop-filter: blur(10px);
+    max-width: calc(100vw - 24px);
+}
+.dots button { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; color: var(--ink-3); transition: .2s; white-space: nowrap; }
+.dots button i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: .5; flex: none; }
+.dots button span { display: none; }
+.dots button:hover { color: var(--ink); }
+.dots button[aria-current="true"] { color: var(--on-ink); background: var(--ink); }
+.dots button[aria-current="true"] i { opacity: 1; }
+.dots button[aria-current="true"] span { display: inline; }
+@media (min-width: 700px) { .dots button span { display: inline; } .dots button { padding: 8px 14px; } }
+nav.desktop a[aria-current="true"] { background: var(--cyan-soft); color: var(--cyan); }
+#mobile-menu a[aria-current="true"] { background: var(--cyan-soft); color: var(--cyan); }
+section.block { display: grid; gap: 32px; }
+.sec-head { text-align: center; max-width: 760px; margin-inline: auto; display: grid; gap: 10px; }
+.sec-head h2, .h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+.sec-head p { color: var(--ink-3); }
+
+/* ---------- Hero ---------- */
+.hero {
+    position: relative; overflow: hidden; border-radius: 32px; background: var(--surface);
+    border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+    display: grid; grid-template-columns: 1fr; gap: 0;
+}
+.hero-text { padding: clamp(24px, 5vw, 56px); display: grid; gap: 20px; align-content: center; }
+.badge {
+    justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+    background: var(--orange-soft); border: 1px solid var(--badge-line); color: var(--badge-ink); font-size: .78rem; font-weight: 700;
+}
+.hero h2 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; }
+.note {
+    padding: 18px 20px; border-radius: 18px; background: linear-gradient(120deg, var(--purple-soft), var(--cyan-soft));
+    border: 1px solid var(--note-line); display: grid; gap: 8px;
+}
+.note p:first-child { font-weight: 600; color: var(--note-ink); }
+.note p:last-child { font-size: .9rem; color: var(--ink-2); }
+.hero p.lead { color: var(--ink-2); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 4px; }
+.hero-visual { position: relative; min-height: 320px; background: var(--space) url('assets/milkyway.jpg') center/cover; display: grid; place-items: center; padding: 24px; }
+.hero-visual::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(7,9,19,.55)); }
+[data-theme="dark"] .strip figure, [data-theme="dark"] .card-img { box-shadow: 0 0 0 1px rgba(125,211,252,.12), var(--shadow); }
+.saturn { position: relative; z-index: 1; width: min(100%, 520px); height: auto; filter: drop-shadow(0 0 40px rgba(125,211,252,.35)); animation: float 7s ease-in-out infinite; }
+@keyframes float { 50% { transform: translateY(-10px); } }
+.hero-card {
+    position: absolute; z-index: 2; left: 16px; right: 16px; bottom: 16px; padding: 14px 18px; border-radius: 16px;
+    background: var(--glass); backdrop-filter: blur(8px); display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between;
+}
+.hero-card b { display: block; font-size: 1rem; }
+.hero-card span.sub { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); }
+.place { font-size: .8rem; color: var(--ink-2); font-weight: 600; }
+@media (min-width: 960px) { .hero { grid-template-columns: 1.15fr .85fr; } .hero-visual { min-height: 500px; } }
+
+/* countdown */
+.countdown { display: flex; gap: 10px; flex-wrap: wrap; }
+.cd { min-width: 68px; text-align: center; padding: 10px 12px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.cd b { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.cd small { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); font-weight: 600; }
+.cd-label { font-size: .78rem; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .1em; }
+
+/* ---------- Photo strip ---------- */
+.strip { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.strip figure { position: relative; border-radius: 18px; overflow: hidden; background: var(--space); aspect-ratio: 4/3; box-shadow: var(--shadow); }
+.strip img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+.strip figure:hover img { transform: scale(1.06); }
+.strip figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 28px 12px 10px; font-size: .78rem; font-weight: 600; color: #fff; background: linear-gradient(transparent, rgba(7,9,19,.85)); }
+@media (min-width: 800px) { .strip { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------- Timeline ---------- */
+.phases { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .phases { grid-template-columns: repeat(3, 1fr); } }
+.phase { --c: var(--cyan); --cs: var(--cyan-soft);
+    position: relative; overflow: hidden; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; }
+.phase.p2 { --c: var(--purple); --cs: var(--purple-soft); }
+.phase.p3 { --c: var(--orange); --cs: var(--orange-soft); }
+.phase-art { height: 120px; position: relative; display: grid; place-items: center; font-size: 3rem; }
+.phase.p1 .phase-art { background: linear-gradient(180deg, #7dd3fc, #fef3c7); }
+.phase.p2 .phase-art { background: linear-gradient(180deg, #6d28d9, #fb923c); }
+.phase.p3 .phase-art { background: linear-gradient(180deg, #070913, #1e1b4b); }
+.phase-art .time { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 999px; font-size: .75rem; font-weight: 800; background: var(--glass); color: var(--c); }
+.phase-art .stars { position: absolute; inset: 0; background-image: radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent), radial-gradient(1px 1px at 70% 20%, #fff, transparent), radial-gradient(1.5px 1.5px at 85% 70%, #fff, transparent), radial-gradient(1px 1px at 40% 75%, #fff, transparent), radial-gradient(1px 1px at 10% 80%, #fff, transparent); }
+.phase.p1 .stars { display: none; } .phase.p2 .stars { opacity: .5; }
+.phase-body { padding: 22px; display: grid; gap: 12px; flex: 1; align-content: start; }
+.phase h3 { font-size: 1.3rem; font-weight: 800; }
+.phase .tagline { font-size: .8rem; font-weight: 600; color: var(--c); }
+.checklist { list-style: none; display: grid; gap: 4px; padding-top: 4px; }
+.checklist label { display: flex; gap: 12px; align-items: flex-start; padding: 10px; border-radius: 12px; cursor: pointer; transition: background .15s; }
+.checklist label:hover { background: var(--cs); }
+.checklist input { margin-top: 5px; width: 18px; height: 18px; accent-color: var(--c); flex: none; cursor: pointer; }
+.checklist strong { display: block; font-size: .92rem; }
+.checklist span.d { display: block; font-size: .8rem; color: var(--ink-3); }
+.checklist input:checked ~ div { opacity: .55; text-decoration: line-through; }
+.phase-foot { padding: 14px 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: .78rem; color: var(--ink-3); }
+.phase-foot b { color: var(--c); }
+.progress { display: flex; align-items: center; gap: 14px; justify-content: center; font-size: .85rem; color: var(--ink-3); font-weight: 600; }
+.progress .bar { width: min(280px, 50vw); height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.progress .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, #0284c7, #7c3aed, #ea580c); transition: width .4s; }
+
+/* ---------- Tables ---------- */
+.tables-head { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-end; }
+.tables-head > div:first-child { display: grid; gap: 8px; max-width: 620px; }
+.tables-head p { color: var(--ink-3); font-size: .92rem; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter { padding: 9px 16px; border-radius: 12px; font-size: .8rem; font-weight: 600; background: var(--surface); border: 1px solid var(--line); color: var(--ink-2); transition: .15s; }
+.filter:hover { border-color: var(--cyan); color: var(--cyan); }
+.filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); box-shadow: 0 6px 16px rgba(15,23,42,.25); }
+.grid-tables { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+.card {
+    text-align: left; display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--surface);
+    border: 1px solid var(--line); box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s, border-color .25s; animation: pop .35s both;
+}
+.card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--card-hover); }
+@keyframes pop { from { opacity: 0; transform: translateY(12px); } }
+.card-img { position: relative; height: 170px; background: var(--space); overflow: hidden; }
+.card-img img, .card-img svg { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+.card:hover .card-img img, .card:hover .card-img svg { transform: scale(1.07); }
+.card-img .pill { position: absolute; top: 12px; left: 12px; padding: 4px 12px; border-radius: 999px; background: var(--glass); color: var(--cyan); font-size: .72rem; font-weight: 800; }
+.card-img .ico { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; display: grid; place-items: center; font-size: 1.2rem; border-radius: 12px; background: var(--glass); }
+.card-body { padding: 18px 20px 12px; display: grid; gap: 8px; flex: 1; align-content: start; }
+.card h3 { font-size: 1.15rem; font-weight: 800; line-height: 1.25; }
+.card:hover h3 { color: var(--cyan); }
+.card .cur { font-size: .78rem; font-weight: 600; color: var(--purple); }
+.card .th { font-size: .84rem; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.card-foot { padding: 12px 20px 16px; display: flex; justify-content: space-between; color: var(--cyan); font-size: .82rem; font-weight: 700; }
+.card:hover .arrow { transform: translateX(4px); } .arrow { transition: transform .2s; }
+
+/* ---------- Modal ---------- */
+#modal { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(15,23,42,.6); backdrop-filter: blur(6px); }
+#modal.open { display: flex; animation: fade .2s; }
+@keyframes fade { from { opacity: 0; } }
+.modal-box { position: relative; width: min(720px, 100%); max-height: 92vh; overflow-y: auto; background: var(--surface); border-radius: 28px; box-shadow: 0 30px 80px rgba(0,0,0,.35); animation: rise .28s; }
+@keyframes rise { from { transform: translateY(24px) scale(.97); opacity: 0; } }
+.modal-img { height: 240px; background: var(--space); }
+.modal-img img, .modal-img svg { width: 100%; height: 100%; object-fit: cover; }
+.modal-close { position: absolute; top: 14px; right: 14px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; background: var(--glass); color: var(--ink); font-size: 1.2rem; box-shadow: var(--shadow); }
+.modal-close:hover { background: var(--surface-2); transform: scale(1.08); }
+.modal-content { padding: 24px clamp(20px, 4vw, 34px) 30px; display: grid; gap: 16px; }
+.modal-title { display: flex; gap: 14px; align-items: center; }
+.modal-title .ico { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 1.6rem; background: var(--ico-grad); flex: none; }
+.modal-title h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 800; line-height: 1.2; }
+.cur-box { padding: 12px 16px; border-radius: 14px; background: var(--purple-soft); border: 1px solid var(--cur-line); color: var(--cur-ink); font-size: .9rem; }
+.modal-content h4 { font-size: .82rem; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.modal-content p { color: var(--ink-2); font-size: .95rem; }
+.exp-box { padding: 16px 18px; border-radius: 16px; background: var(--cyan-soft); border: 1px solid var(--exp-line); }
+.exp-box p { color: var(--ink); }
+.modal-nav { display: flex; justify-content: space-between; gap: 10px; padding-top: 6px; flex-wrap: wrap; }
+.btn-line { border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); }
+.btn-line:hover { background: var(--surface-2); }
+
+/* ---------- Logistics ---------- */
+.info-grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .info-grid { grid-template-columns: repeat(3, 1fr); } }
+.info { --c: var(--cyan); --cs: var(--cyan-soft); border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 26px; display: grid; gap: 14px; align-content: start; border-top: 4px solid var(--c); }
+.info.i2 { --c: var(--purple); --cs: var(--purple-soft); } .info.i3 { --c: var(--orange); --cs: var(--orange-soft); }
+.info .ico { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 1.6rem; background: var(--cs); }
+.info h3 { font-size: 1.3rem; font-weight: 800; }
+.info .tg { font-size: .8rem; font-weight: 700; color: var(--c); }
+.info p { font-size: .92rem; color: var(--ink-2); }
+.tip { padding: 14px 16px; border-radius: 14px; background: var(--cs); font-size: .84rem; color: var(--ink-2); }
+.tip b { display: block; color: var(--c); margin-bottom: 2px; }
+.temp { display: flex; align-items: center; gap: 12px; font-size: .8rem; color: var(--ink-3); font-weight: 600; }
+.temp .gauge { flex: 1; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #38bdf8, #fde047, #fb923c); position: relative; }
+.temp .gauge i { position: absolute; top: -4px; left: 22%; width: 16px; height: 16px; border-radius: 50%; border: 3px solid #fff; background: #0284c7; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+
+/* ---------- Surprise ---------- */
+.surprise { position: relative; overflow: hidden; text-align: center; border-radius: 32px; padding: clamp(28px, 6vw, 64px); display: grid; gap: 20px; justify-items: center;
+    color: #fff; background: linear-gradient(135deg, #1e1b4b, #4c1d95 50%, #9d174d); box-shadow: var(--shadow-lg); }
+.surprise::before { content: ""; position: absolute; inset: 0; background: url('assets/hudf.jpg') center/cover; opacity: .28; mix-blend-mode: screen; }
+.surprise > * { position: relative; }
+.surprise .badge { justify-self: center; background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.35); color: #fed7aa; }
+.surprise h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.15; max-width: 800px; }
+.surprise p.sub { max-width: 620px; color: #e0e7ff; }
+.greet { width: min(640px, 100%); padding: 24px; border-radius: 20px; background: rgba(255,255,255,.96); color: #0f172a; display: grid; gap: 16px; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+#greeting-box { min-height: 3.6rem; display: grid; place-items: center; font-size: 1.12rem; font-weight: 500; font-style: italic; color: #0369a1; transition: opacity .2s; }
+[data-theme="dark"] .greet { background: rgba(15,23,42,.92); color: #f1f5f9; border: 1px solid rgba(255,255,255,.15); }
+[data-theme="dark"] #greeting-box { color: #7dd3fc; }
+.greet .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ---------- Credits / footer ---------- */
+footer { margin-top: 24px; border-top: 1px solid var(--line); padding: 28px 0 0; text-align: center; position: relative; z-index: 1; }
+footer .org { color: var(--cyan); font-weight: 700; }
+footer p { font-size: .85rem; color: var(--ink-3); margin-top: 6px; }
+footer .credits { max-width: 900px; margin: 22px auto 0; padding-top: 18px; border-top: 1px dashed var(--line); font-size: .72rem; color: var(--ink-3); }
+
+#confetti { position: fixed; inset: 0; z-index: 200; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* ================= Layout a schermo intero (senza scroll verticale) ================= */
+.panel-in { padding: 12px 0 72px; gap: clamp(8px, 2vh, 24px); }
+.sec-head { gap: 6px; }
+.sec-head h2, .h2 { font-size: clamp(1.5rem, 4.6vh, 2.4rem); }
+.sec-head p { font-size: clamp(.8rem, 1.9vh, 1rem); }
+.block { gap: clamp(10px, 2.2vh, 24px); }
+
+/* Benvenuto */
+.hero-text { padding: clamp(16px, 3.4vh, 40px) clamp(20px, 3.4vw, 48px); gap: clamp(8px, 1.7vh, 16px); }
+.hero h2 { font-size: clamp(1.7rem, 5.4vh, 3rem); }
+.badge { font-size: clamp(.7rem, 1.6vh, .78rem); padding: 5px 12px; }
+.note { padding: clamp(10px, 1.8vh, 16px) 16px; gap: 6px; }
+.note p:first-child { font-size: clamp(.82rem, 2vh, 1rem); }
+.note p:last-child { font-size: clamp(.74rem, 1.8vh, .9rem); }
+.hero p.lead { font-size: clamp(.78rem, 1.9vh, .98rem); line-height: 1.5; }
+.hero-visual { min-height: 0 !important; }
+.saturn { width: min(88%, 460px); margin-top: 56px; }
+.cd-wrap { position: absolute; z-index: 2; left: 16px; right: 16px; top: 16px; padding: 10px 14px; border-radius: 16px; background: var(--glass); backdrop-filter: blur(8px); display: grid; gap: 6px; }
+.cd-wrap .countdown { gap: 8px; }
+.cd { min-width: 0; flex: 1; padding: 6px 8px; border-radius: 12px; }
+.cd b { font-size: 1.25rem; }
+.cd-wrap strong { font-size: .9rem; }
+
+/* Galleria */
+.strip { grid-template-columns: repeat(4, 1fr); height: clamp(240px, 58vh, 540px); }
+.strip figure { aspect-ratio: auto; height: 100%; }
+.strip figcaption { font-size: clamp(.74rem, 1.8vh, .95rem); padding: 36px 14px 12px; }
+@media (max-width: 700px) { .strip { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); } }
+
+/* Itinerario */
+.phases { gap: 16px; }
+.phase-art { height: clamp(50px, 9vh, 90px); font-size: clamp(1.8rem, 4.6vh, 2.6rem); }
+.phase-art .time { top: 8px; right: 8px; padding: 3px 10px; font-size: .7rem; }
+.phase-body { padding: clamp(10px, 2vh, 18px) 18px; gap: 6px; }
+.phase h3 { font-size: clamp(1.05rem, 2.6vh, 1.3rem); }
+.phase .tagline { font-size: .76rem; }
+.checklist { gap: 0; padding-top: 0; }
+.checklist label { padding: clamp(4px, .9vh, 8px) 8px; }
+.checklist strong { font-size: .86rem; line-height: 1.3; }
+.checklist span.d { font-size: .75rem; line-height: 1.35; }
+.phase-foot { padding: 8px 18px; }
+
+/* Tavoli: carosello orizzontale */
+.tables-head { gap: 12px; }
+.tables-head p { font-size: clamp(.78rem, 1.8vh, .92rem); }
+.filter { padding: 7px 14px; }
+.car-nav { display: inline-flex; gap: 6px; margin-left: 6px; }
+.car-nav button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 1.2rem; line-height: 1; transition: .15s; }
+.car-nav button:hover:not([disabled]) { border-color: var(--cyan); color: var(--cyan); }
+.car-nav button[disabled] { opacity: .35; cursor: default; }
+.carousel { display: flex; gap: 16px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; padding: 10px 4px 18px; margin: -10px -4px 0; scrollbar-width: thin; scrollbar-color: var(--line) transparent; overscroll-behavior-x: auto; }
+.carousel .card { flex: 0 0 min(300px, 78vw); scroll-snap-align: start; }
+.card-img { height: clamp(90px, 20vh, 170px); }
+.card-body { padding: 12px 16px 6px; gap: 5px; }
+.card h3 { font-size: clamp(.95rem, 2.3vh, 1.1rem); }
+.card .cur { font-size: .74rem; }
+.card .th { font-size: .8rem; -webkit-line-clamp: 3; }
+.card-foot { padding: 8px 16px 12px; font-size: .78rem; }
+
+/* Logistica */
+.info-grid { gap: 16px; }
+.info { padding: clamp(14px, 2.6vh, 24px); gap: clamp(6px, 1.5vh, 12px); }
+.info .ico { width: 40px; height: 40px; font-size: 1.25rem; border-radius: 12px; }
+.info h3 { font-size: clamp(1rem, 2.5vh, 1.25rem); }
+.info p { font-size: clamp(.78rem, 1.8vh, .9rem); line-height: 1.45; }
+.tip { padding: 10px 12px; font-size: clamp(.74rem, 1.7vh, .84rem); }
+
+/* Sorpresa + footer */
+.surprise { padding: clamp(16px, 3.6vh, 40px) 24px; gap: clamp(8px, 1.8vh, 16px); border-radius: 28px; }
+.surprise h2 { font-size: clamp(1.4rem, 4.8vh, 2.4rem); text-wrap: balance; }
+.surprise p.sub { font-size: clamp(.8rem, 1.9vh, 1rem); }
+.greet { padding: 14px 16px; gap: 10px; }
+#greeting-box { min-height: 2.6rem; font-size: clamp(.9rem, 2vh, 1.05rem); }
+footer { margin-top: 0; padding-top: 12px; }
+footer p { margin-top: 2px; font-size: .78rem; }
+footer .credits { margin-top: 8px; padding-top: 8px; font-size: .64rem; line-height: 1.4; }
+/* Schermi bassi (portatili): ancora più compatto, sempre senza scroll verticale */
+@media (max-height: 760px) {
+    .panel-in { padding: 8px 0 68px; gap: 8px; }
+    .sec-head h2, .h2 { font-size: 1.5rem; }
+    .sec-head { gap: 2px; }
+    .phase-art { height: 40px; font-size: 1.5rem; }
+    .phase-body { padding: 8px 16px; gap: 3px; }
+    .phase h3 { font-size: 1rem; }
+    .checklist label { padding: 2px 8px; }
+    .checklist strong { font-size: .8rem; }
+    .checklist span.d { font-size: .7rem; line-height: 1.25; }
+    .phase-foot { padding: 5px 16px; font-size: .7rem; }
+    .phases { gap: 12px; }
+    .progress { font-size: .75rem; }
+    .tables-head { gap: 8px; }
+    .tables-head > div:first-child { gap: 2px; }
+    .filter { padding: 5px 12px; font-size: .74rem; }
+    .car-nav button { width: 30px; height: 30px; }
+    .card-img { height: 78px; }
+    .card-body { padding: 8px 14px 4px; gap: 3px; }
+    .card .th { -webkit-line-clamp: 2; font-size: .76rem; }
+    .card-foot { padding: 6px 14px 8px; }
+    .carousel { padding-bottom: 12px; }
+    .info { padding: 12px 14px; gap: 5px; }
+    .info .ico { width: 32px; height: 32px; font-size: 1rem; }
+    .info p { font-size: .76rem; line-height: 1.35; }
+    .tip { padding: 7px 10px; font-size: .72rem; }
+    .temp { font-size: .7rem; }
+    .surprise { padding: 14px 20px; gap: 6px; }
+    .surprise h2 { font-size: 1.35rem; }
+    .surprise p.sub { font-size: .78rem; }
+    .greet { padding: 10px 14px; gap: 6px; }
+    #greeting-box { min-height: 2.2rem; font-size: .88rem; }
+    footer { padding-top: 8px; }
+    footer .credits { margin-top: 5px; padding-top: 5px; font-size: .6rem; line-height: 1.3; }
+    .hero-text { padding: 14px 24px; gap: 7px; }
+    .hero h2 { font-size: 1.7rem; }
+    .note { padding: 8px 14px; gap: 4px; }
+    .note p:first-child { font-size: .8rem; } .note p:last-child { font-size: .72rem; }
+    .hero p.lead { font-size: .76rem; line-height: 1.4; }
+}
+
+/* Pannelli con titolo: stesso punto di partenza in alto, così le card sono allineate tra le pagine */
+.panel-in.top { margin: 0 auto; padding-top: clamp(8px, 4vh, 48px); }
+.surprise { padding: clamp(18px, 4vh, 44px) 24px; }
+#surprise .sec-head { max-width: 1100px; }
+#surprise .sec-head p { max-width: 760px; margin-inline: auto; }
+.sec-head h2 { text-wrap: balance; }
+
+/* Ultima pagina: la card si allunga fino al footer, i crediti stanno sopra il menu in basso */
+.panel-in.last { flex: 1 0 auto; position: relative; grid-template-rows: 1fr auto; padding-bottom: 122px; }
+#surprise { grid-template-rows: auto 1fr; }
+.surprise { align-content: center; }
+.greet { width: min(700px, 100%); padding: clamp(16px, 3.2vh, 34px) clamp(18px, 3vw, 36px); gap: clamp(10px, 2vh, 20px); }
+#greeting-box { font-size: clamp(1rem, 2.8vh, 1.4rem); min-height: 3.4rem; }
+.panel-in footer, .panel-in footer .container { position: static; }
+footer .credits {
+    position: absolute; left: 0; right: 0; bottom: 70px; margin: 0 auto; max-width: 1120px; padding: 0 12px;
+    border-top: 0; font-size: .64rem; line-height: 1.4; color: var(--ink-3); opacity: .85;
+}
+
+/* Schede dei tavoli: a due colonne (immagine + testo), così stanno nello schermo senza scroll */
+.modal-box { max-height: 96vh; }
+.modal-content { padding: clamp(16px, 3vh, 28px) clamp(20px, 3vw, 32px); gap: clamp(8px, 1.8vh, 16px); }
+.modal-content p { font-size: clamp(.82rem, 1.9vh, .95rem); line-height: 1.5; }
+.cur-box { padding: 10px 14px; }
+.exp-box { padding: clamp(10px, 2vh, 16px) 16px; }
+.modal-nav { padding-top: 2px; }
+@media (min-width: 860px) {
+    .modal-box { width: min(980px, 100%); }
+    #modal-inner { display: grid; grid-template-columns: 36% 1fr; }
+    .modal-img { height: auto; min-height: 100%; position: relative; }
+    .modal-img img, .modal-img svg { position: absolute; inset: 0; }
+    .modal-title { padding-right: 44px; }
+}
+@media (max-width: 859px) { .modal-img { height: clamp(80px, 18vh, 200px); } }
+@media (max-height: 700px) {
+    .modal-title .ico { width: 40px; height: 40px; font-size: 1.2rem; border-radius: 12px; }
+    .modal-title h2 { font-size: 1.3rem; }
+    .modal-content h4 { font-size: .74rem; margin-bottom: 2px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<header class="top">
+    <div class="container top-inner">
+        <a class="brand" href="#welcome">
+            <span class="brand-logo" aria-hidden="true">🚀</span>
+            <span>
+                <small>NEXUS • Ai Confini della Scienza</small>
+                <strong class="grad-text">Il tuo regalo, Jo 🎂</strong>
+            </span>
+        </a>
+        <nav class="desktop" aria-label="Navigazione principale">
+            <a href="#welcome">Benvenuto</a>
+            <a href="#timeline">Itinerario</a>
+            <a href="#tables">10 Tavoli</a>
+            <a href="#logistics">Info &amp; Logistica</a>
+            <button class="btn btn-party btn-sm" onclick="triggerSurprise()">✨ Auguri Jo!</button>
+        </nav>
+        <div class="actions">
+            <button class="theme-btn" id="theme-btn" aria-label="Passa al tema scuro" title="Cambia tema" onclick="toggleTheme()">🌙</button>
+            <button class="burger" id="burger" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </div>
+    <div id="mobile-menu">
+        <a href="#welcome" onclick="toggleMobileMenu()">Benvenuto</a>
+        <a href="#timeline" onclick="toggleMobileMenu()">Itinerario</a>
+        <a href="#tables" onclick="toggleMobileMenu()">10 Tavoli</a>
+        <a href="#logistics" onclick="toggleMobileMenu()">Info &amp; Logistica</a>
+        <button class="btn btn-party" onclick="triggerSurprise(); toggleMobileMenu()">✨ Auguri Jo!</button>
+    </div>
+</header>
+
+<main class="deck" id="deck">
+<div class="panel" data-title="Benvenuto"><div class="panel-in">
+
+    <!-- Sezione 1: Benvenuto -->
+    <section id="welcome" class="hero">
+        <div class="hero-text">
+            <div class="badge">🎂 Buon Compleanno in Anticipo per il 26 Ottobre!</div>
+            <h2>Jo, questo sarà un <span class="grad-text">Compleanno Speciale per te! 🌟</span></h2>
+            <div class="note">
+                <p>✨ Festeggiamo in anticipo il tuo compleanno del 26 ottobre con un regalo d'esperienza scientifica immersiva sotto il cielo autunnale!</p>
+                <p>Questa serata a Monte Viseggi è stata pensata come un'opportunità speciale per esplorare l'Universo, toccare con mano strumentazioni d'avanguardia, dialogare con i ricercatori e brindare insieme a una grande passione. Buon compleanno, Jo! 🥂</p>
+            </div>
+            <p class="lead">
+                Benvenuto a questo eccezionale viaggio immersivo tra le meraviglie del cosmo! La serata di <strong>sabato 24 ottobre</strong>, organizzata dall'<strong>Associazione Astrofili Spezzini A.P.S.</strong> presso l'<strong>Osservatorio Astronomico di Monte Viseggi</strong> (La Spezia), rappresenta un'esperienza unica, immersa nella natura collinare che sovrasta il Golfo. Cancelli aperti dalle 15:30, inizio attività 16:00, conclusione ore 22:30.
+            </p>
+            <div class="cta-row">
+                <button class="btn btn-primary" onclick="triggerSurprise()">🥂 Brindisi Virtuale per te</button>
+                <a class="btn btn-ghost" href="#timeline" style="text-decoration:none">🧭 Scopri l'Itinerario</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img class="saturn" src="assets/saturn.jpg" alt="Saturno e i suoi anelli, ripreso dalla sonda Cassini" width="1280" height="620" style="mask-image: radial-gradient(ellipse at center, #000 55%, transparent 72%); -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 72%);">
+            <div class="cd-wrap">
+                <div class="cd-label" id="cd-label">Mancano all'inizio delle attività</div>
+                <div class="countdown" id="countdown" aria-live="off"></div>
+            </div>
+            <div class="hero-card">
+                <div>
+                    <span class="sub">Scienza, persone, territorio.</span>
+                    <b>Tutto connesso.</b>
+                </div>
+                <span class="place">📍 Monte Viseggi (La Spezia)</span>
+            </div>
+        </div>
+    </section>
+
+</div></div>
+<div class="panel" data-title="Galleria"><div class="panel-in top">
+    <!-- Galleria -->
+    <section class="block" aria-label="Immagini dell'Universo">
+        <div class="sec-head">
+            <span class="eyebrow">Uno sguardo al cielo</span>
+            <h2>Le Meraviglie dell'Universo ✨</h2>
+        </div>
+        <div class="strip">
+            <figure><img src="assets/sun.jpg" alt="Il Sole ripreso nell'ultravioletto dal Solar Dynamics Observatory" loading="lazy"><figcaption>☀️ Il Sole · NASA/SDO</figcaption></figure>
+            <figure><img src="assets/pillars.jpg" alt="I Pilastri della Creazione nella Nebulosa Aquila" loading="lazy"><figcaption>🌌 Pilastri della Creazione · Hubble</figcaption></figure>
+            <figure><img src="assets/m31.jpg" alt="La Galassia di Andromeda" loading="lazy"><figcaption>🔭 Galassia di Andromeda · cielo d'autunno</figcaption></figure>
+            <figure><img src="assets/moon.jpg" alt="La Luna piena" loading="lazy"><figcaption>🌕 La Luna</figcaption></figure>
+        </div>
+    </section>
+
+</div></div>
+<div class="panel" data-title="Itinerario"><div class="panel-in top">
+    <!-- Sezione 2: Itinerario -->
+    <section id="timeline" class="block">
+        <div class="sec-head">
+            <span class="eyebrow">Pianificazione Intelligente</span>
+            <h2>L'Itinerario Perfetto per te 🗺️</h2>
+            <p>Un percorso strategico in 3 fasi cronologiche per godersi al massimo l'alternanza tra luce solare, crepuscolo e cielo notturno. Spunta le attività man mano che le completi!</p>
+        </div>
+
+        <div class="phases">
+            <article class="phase p1">
+                <div class="phase-art"><span class="time">16:00 – 17:30</span>☀️</div>
+                <div class="phase-body">
+                    <h3>Prima del Buio</h3>
+                    <p class="tagline">Attività diurne, cromosfera solare e microscopia</p>
+                    <ul class="checklist">
+                        <li><label><input type="checkbox" data-id="t7"><div><strong>Tavolo 7: Il Sole Vivo</strong><span class="d">Telescopio H-alpha per protuberanze e macchie solari.</span></div></label></li>
+                        <li><label><input type="checkbox" data-id="t3"><div><strong>Tavolo 3: Mare di Stelle</strong><span class="d">Plancton e microscopia ottica del Golfo.</span></div></label></li>
+                        <li><label><input type="checkbox" data-id="t9"><div><strong>Tavolo 9: Moon Base</strong><span class="d">Progettazione spaziale e laboratorio pratico.</span></div></label></li>
+                    </ul>
+                </div>
+                <div class="phase-foot"><span>Fase Solare</span><b>Priorità Diurna</b></div>
+            </article>
+
+            <article class="phase p2">
+                <div class="phase-art"><div class="stars"></div><span class="time">17:15 – 17:45</span>🌆</div>
+                <div class="phase-body">
+                    <h3>Al Tramonto</h3>
+                    <p class="tagline">Transizione metodologica e caccia ai corpi celesti</p>
+                    <ul class="checklist">
+                        <li><label><input type="checkbox" data-id="t1"><div><strong>Tavolo 1: Cacciatori del S.S.</strong><span class="d">Astrometria e ricerca asteroidi con Luigi Sannino.</span></div></label></li>
+                        <li><label><input type="checkbox" data-id="t2"><div><strong>Tavolo 2: Mondi Alieni</strong><span class="d">Curve di luce TESS e ricerca esopianeti.</span></div></label></li>
+                    </ul>
+                </div>
+                <div class="phase-foot"><span>Fase Crepuscolare</span><b>Buffer Flessibile</b></div>
+            </article>
+
+            <article class="phase p3">
+                <div class="phase-art"><div class="stars"></div><span class="time">17:45 – 22:30</span>🪐</div>
+                <div class="phase-body">
+                    <h3>Dopo il Buio</h3>
+                    <p class="tagline">Telescopi notturni, Saturno e Brindisi per te!</p>
+                    <ul class="checklist">
+                        <li><label><input type="checkbox" data-id="t10"><div><strong>Tavolo 10: Cielo Autunnale</strong><span class="d">Osservazione guidata di Saturno e anelli.</span></div></label></li>
+                        <li><label><input type="checkbox" data-id="toast"><div><strong>🍹 Brindisi per te</strong><span class="d">Festeggiamento con la bevanda inclusa nel biglietto!</span></div></label></li>
+                        <li><label><input type="checkbox" data-id="tracks"><div><strong>Tracks A &amp; B</strong><span class="d">Ionosphere, Radioastronomia, Terra Estrema e Frontiera Spazio.</span></div></label></li>
+                    </ul>
+                </div>
+                <div class="phase-foot"><span>Fase Notturna</span><b>Clou &amp; Festeggiamenti</b></div>
+            </article>
+        </div>
+        <div class="progress"><span id="progress-text">0 / 8 completate</span><div class="bar"><i id="progress-bar"></i></div></div>
+    </section>
+
+</div></div>
+<div class="panel" data-title="10 Tavoli"><div class="panel-in top">
+    <!-- Sezione 3: I 10 Tavoli -->
+    <section id="tables" class="block">
+        <div class="tables-head">
+            <div>
+                <span class="eyebrow">Esplorazione Guidata</span>
+                <h2 class="h2">I 10 Tavoli Tematici NEXUS 🔬</h2>
+                <p>Clicca su qualsiasi tavolo per aprire la scheda di approfondimento completa con strumenti ed esperienze interattive.</p>
+            </div>
+            <div class="filters" role="group" aria-label="Filtra i tavoli">
+                <button class="filter" data-filter="all" aria-pressed="true">Tutti (10)</button>
+                <button class="filter" data-filter="sun" aria-pressed="false">Sole &amp; Diurni</button>
+                <button class="filter" data-filter="space" aria-pressed="false">Spazio &amp; Esopianeti</button>
+                <button class="filter" data-filter="tech" aria-pressed="false">Tech &amp; Radio</button>
+                <button class="filter" data-filter="night" aria-pressed="false">Notturni</button>
+                <span class="car-nav">
+                    <button id="car-prev" aria-label="Tavoli precedenti">‹</button>
+                    <button id="car-next" aria-label="Tavoli successivi">›</button>
+                </span>
+            </div>
+        </div>
+        <div id="tables-grid" class="carousel" role="list" aria-label="I 10 tavoli tematici"></div>
+    </section>
+
+</div></div>
+<div class="panel" data-title="Logistica"><div class="panel-in top">
+    <!-- Sezione 4: Logistica -->
+    <section id="logistics" class="block">
+        <div class="sec-head">
+            <span class="eyebrow">Pronto per la Serata</span>
+            <h2>Logistica &amp; Consigli Utili 📋</h2>
+            <p>Jo, ecco tutto quello che tu e la tua accompagnatrice dovete sapere per vivere l'esperienza all'Osservatorio di Monte Viseggi in totale comfort.</p>
+        </div>
+        <div class="info-grid">
+            <article class="info i1">
+                <div class="ico">👕</div>
+                <h3>Gestione Termica</h3>
+                <p class="tg">Abbigliamento consigliato per Monte Viseggi</p>
+                <p>L'Osservatorio si trova sulla cima del monte. Con il calare del Sole la temperatura scende facilmente tra i <strong>10°C e i 14°C</strong> (o meno) per via della brezza e dell'umidità.</p>
+                <div class="temp"><span>🥶 10°</span><div class="gauge"><i></i></div><span>14° 🙂</span></div>
+                <div class="tip"><b>Consiglio d'oro:</b>Vestirsi "a cipolla" con felpa calda, giacca antivento, sciarpa e calzature chiuse e comode.</div>
+            </article>
+            <article class="info i2">
+                <div class="ico">🍽️</div>
+                <h3>Food &amp; Drink</h3>
+                <p class="tg">Brindisi di compleanno e ristoro</p>
+                <p>Il biglietto include <strong>una bevanda a scelta</strong> (perfetta per il brindisi del tuo compleanno!). Sul posto sarà disponibile food leggero acquistabile separatamente.</p>
+                <div class="tip"><b>Intolleranze:</b>In caso di esigenze specifiche, si consiglia di portare snack o cibo personale da casa.</div>
+            </article>
+            <article class="info i3">
+                <div class="ico">🕒</div>
+                <h3>Orari &amp; Sede</h3>
+                <p class="tg">Sabato 24 Ottobre • La Spezia</p>
+                <p><strong>Indirizzo:</strong> Osservatorio Astronomico di Monte Viseggi, Via Viseggi 15, 19134 La Spezia (SP). Parcheggio gratuito in loco.</p>
+                <div class="tip"><b>Timeline della Serata:</b>• 15:30 Apertura Cancelli<br>• 16:00 Inizio Attività<br>• 22:30 Conclusione</div>
+                <a class="btn btn-ghost btn-sm" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Osservatorio+Astronomico+Monte+Viseggi+Via+Viseggi+15+La+Spezia">📍 Apri in Maps</a>
+            </article>
+        </div>
+    </section>
+
+</div></div>
+<div class="panel" data-title="Sorpresa"><div class="panel-in top last">
+    <!-- Sezione 5: Sorpresa -->
+    <section id="surprise" class="block">
+        <div class="sec-head">
+            <span class="eyebrow">🎁 Angolo Sorpresa per te</span>
+            <h2>Generatore di Auguri Galattici &amp; Brindisi per te 🥂✨</h2>
+            <p>Clicca sul pulsante qui sotto per scatenare una pioggia di stelle filanti e coriandoli spaziali e generare un messaggio di compleanno unico dedicato alle stelle!</p>
+        </div>
+        <div class="surprise">
+        <div class="greet">
+            <div id="greeting-box" aria-live="polite">"Buon compleanno Jo! Che la tua vita sia luminosa come una supernova e affascinante come il cielo di Monte Viseggi!"</div>
+            <div class="row">
+                <button class="btn btn-line btn-sm" onclick="generateNewGreeting()">🪄 Altro Messaggio</button>
+                <button class="btn btn-party btn-sm" onclick="triggerSurprise()">🥂 Festeggia con noi!</button>
+            </div>
+        </div>
+        </div>
+    </section>
+<footer>
+    <div class="container">
+        <div class="org">★ Associazione Astrofili Spezzini A.P.S. ★</div>
+        <p>Osservatorio Astronomico di Monte Viseggi • Via Viseggi 15, La Spezia (SP)</p>
+        <p>Dedicato con affetto a te, Jo, per il tuo compleanno galattico • Sabato 24 Ottobre</p>
+        <div class="credits">
+            Crediti immagini (Wikimedia Commons): Saturno – NASA/JPL/Space Science Institute (Cassini) · Sole – NASA/SDO · Pilastri della Creazione, Hubble Ultra Deep Field – NASA/ESA/Hubble · Eros – NASA/JHUAPL (NEAR Shoemaker) · Terra – NASA (Apollo 17) · Marte, Valles Marineris – NASA (Viking) · Via Lattea – ESO/S. Brunier (CC BY 4.0) · Galassia di Andromeda – Adam Evans (CC BY 2.0) · Luna – Gregory H. Revera (CC BY-SA 3.0).
+        </div>
+    </div>
+</footer>
+</div></div>
+</main>
+
+<button class="deck-arrow prev" id="deck-prev" aria-label="Sezione precedente">‹</button>
+<button class="deck-arrow next" id="deck-next" aria-label="Sezione successiva">›</button>
+<nav class="dots" id="dots" aria-label="Sezioni"></nav>
+
+<!-- Modal scheda tavolo -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()" aria-label="Chiudi">✕</button>
+        <div id="modal-inner"></div>
+    </div>
+</div>
+
+
+<script>
+/* ================= Dati dei tavoli ================= */
+const tablesData = [
+    { id: 1, title: "Cacciatori del Sistema Solare", category: "space", tag: "Tavolo 1", emoji: "☄️", img: "assets/eros.jpg", alt: "L'asteroide 433 Eros ripreso dalla sonda NEAR Shoemaker", pos: "center 35%",
+      curator: "Luigi Sannino (ricerca asteroidi)",
+      themes: "Asteroidi, comete e oggetti che attraversano il nostro cielo.",
+      tools: "Tecnica del blink d'immagini astronomiche, astrometria, calcolo orbite e connessione con il Minor Planet Center.",
+      experience: "Dimostrazione pratica sul campo delle reali metodologie di scoperta e monitoraggio scientifico condotte dall'Osservatorio di Monte Viseggi." },
+    { id: 2, title: "Mondi Alieni", category: "space", tag: "Tavolo 2", emoji: "🌍", art: "transit",
+      curator: "Claudio Gentile (ricerca TESS)",
+      themes: "Esopianeti, sistemi planetari extrasolari e ricerca di mondi potenzialmente abitabili.",
+      tools: "Studio del metodo dei transiti fotometrici e analisi interpretativa delle curve di luce ottenute da missioni spaziali.",
+      experience: "Simulazione dell'analisi dei dati fotometrici per comprendere come i ricercatori rilevano l'ombra minuscola proiettata da un pianeta davanti alla stella." },
+    { id: 3, title: "Mare di Stelle – Alieni del nostro Golfo", category: "sun", tag: "Tavolo 3", emoji: "🌊", art: "plankton",
+      curator: "Biologa Erika Mioni",
+      themes: "Biologia marina locale, biodiversità del micro-mondo acquatico e parallelismi con l'astrobiologia.",
+      tools: "Microscopi ottici da laboratorio con campioni biologici freschi di plancton e organismi marini insoliti del Golfo della Spezia.",
+      experience: "Esplorazione guidata del microscopico 'universo alieno' marino, utilizzato come modello analogico per la ricerca di forme di vita nell'Universo." },
+    { id: 4, title: "Terra Estrema", category: "tech", tag: "Tavolo 4", emoji: "⛈️", img: "assets/earth.jpg", alt: "La Terra vista dall'Apollo 17", pos: "center 45%",
+      curator: "Life on the Sea",
+      themes: "Meteorologia dinamica, eventi atmosferici severi (temporali rigenerativi, grandinate) e gestione della sicurezza.",
+      tools: "Mappe e immagini in tempo reale da radar meteorologici, modelli previsionali e scale di criticità.",
+      experience: "Comprensione operativa del significato scientifico e gestionale delle allerte meteorologiche e di come si monitora la formazione di un evento estremo." },
+    { id: 5, title: "Dentro la Ionosfera", category: "tech", tag: "Tavolo 5", emoji: "📡", art: "ionosphere",
+      curator: "Staff NEXUS / Associazione Astrofili Spezzini A.P.S.",
+      themes: "Space Weather (meteorologia spaziale), fisica della risposta atmosferica e interazione Terra-Sole.",
+      tools: "La nuova ionosonda SP044 e tracciati di ionogrammi reali.",
+      experience: "Analisi strutturale degli strati E ed F della ionosfera per verificare dal vivo l'impatto dell'attività solare sulla propagazione delle onde radio." },
+    { id: 6, title: "Ascoltare lo Spazio", category: "tech", tag: "Tavolo 6", emoji: "🎧", art: "waterfall",
+      curator: "Radioamatori",
+      themes: "Radioastronomia amatoriale, tracciamento passivo di meteore e rilevamento di segnali satellitari.",
+      tools: "Antenna e ricevitore puntati sul sistema GRAVES, apparati SDR (Software Defined Radio) e spettrogrammi waterfall.",
+      experience: "Ascolto audio in diretta ed elaborazione visiva degli echi radio prodotti dal fenomeno del meteor scatter e dal passaggio di satelliti." },
+    { id: 7, title: "Il Sole Vivo", category: "sun", tag: "Tavolo 7", emoji: "☀️", img: "assets/sun.jpg", alt: "Il Sole nell'ultravioletto (NASA/SDO)", pos: "center",
+      curator: "Istituto Culturale Astrofili Spezzini",
+      themes: "Eliofisica, dinamica delle strutture magnetiche solari e ciclo d'attività della nostra stella.",
+      tools: "Telescopio solare dedicato dotato di filtro interferenziale in H-alpha e schermo digitale LIM.",
+      experience: "Osservazione diretta in piena sicurezza della cromosfera solare: protuberanze, filamenti, macchie solari e brillamenti." },
+    { id: 8, title: "Frontiera Spazio", category: "space", tag: "Tavolo 8", emoji: "🚀", img: "assets/mars.jpg", alt: "Valles Marineris su Marte", pos: "center",
+      curator: "Claudio Cosci e Silvia Beghi (NASA STEAM)",
+      themes: "Esplorazione spaziale umana e robotica, infrastrutture orbitali e missioni interplanetarie.",
+      tools: "Programma Artemis, stazione cislunare Gateway, basi lunari, esplorazione di Marte e robotica avanzata.",
+      experience: "Percorso educativo e formativo sulle sfide tecnologiche e biomediche per la permanenza a lungo termine dell'uomo nello spazio." },
+    { id: 9, title: "Moon Base – Costruisci il Futuro", category: "sun", tag: "Tavolo 9", emoji: "🌙", img: "assets/moon.jpg", alt: "La Luna piena", pos: "center",
+      curator: "Staff NEXUS / Associazione Astrofili Spezzini A.P.S.",
+      themes: "Ingegneria aerospaziale, sostenibilità e architettura degli insediamenti extraterrestri.",
+      tools: "Modelli di simulazione e schemi per la gestione integrata delle risorse primarie (energia, habitat, acqua, ossigeno).",
+      experience: "Laboratorio pratico-esperienziale in cui bambini e famiglie collaborano per progettare, bilanciare e assemblare una base lunare autosufficiente." },
+    { id: 10, title: "Tavolo del Cielo Autunnale", category: "night", tag: "Tavolo 10", emoji: "🔭", img: "assets/saturn.jpg", alt: "Saturno e i suoi anelli", pos: "center",
+      curator: "Associazione Astrofili Spezzini A.P.S.",
+      themes: "Astronomia osservativa notturna, meccanica celeste e oggetti del cielo profondo stagionale.",
+      tools: "I telescopi astronomici ad alta risoluzione della specola di Monte Viseggi.",
+      experience: "Puntamento ed osservazione guidata del pianeta Saturno (con i suoi anelli e le sue lune) e delle costellazioni autunnali." }
+];
+
+/* ================= Illustrazioni SVG (dove non c'è una foto) ================= */
+const stars = (n, w, h, seed) => {
+    let s = seed, out = '';
+    const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < n; i++) out += `<circle cx="${(r()*w).toFixed(0)}" cy="${(r()*h).toFixed(0)}" r="${(r()*1.4+.3).toFixed(1)}" fill="#fff" opacity="${(r()*.7+.3).toFixed(2)}"/>`;
+    return out;
+};
+const arts = {
+    transit: () => `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Transito di un esopianeta davanti alla sua stella e curva di luce">
+        <defs><radialGradient id="st" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff7d6"/><stop offset=".6" stop-color="#fbbf24"/><stop offset="1" stop-color="#f97316"/></radialGradient>
+        <radialGradient id="glow"><stop offset="0" stop-color="#fbbf24" stop-opacity=".55"/><stop offset="1" stop-color="#fbbf24" stop-opacity="0"/></radialGradient></defs>
+        <rect width="400" height="240" fill="#070913"/>${stars(40,400,240,7)}
+        <circle cx="200" cy="85" r="75" fill="url(#glow)"/><circle cx="200" cy="85" r="46" fill="url(#st)"/>
+        <circle cx="222" cy="92" r="11" fill="#0b1026"/>
+        <polyline fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round" points="20,185 120,185 140,185 150,200 250,200 260,185 380,185"/>
+        <line x1="20" y1="215" x2="380" y2="215" stroke="#334155"/><line x1="20" y1="165" x2="20" y2="215" stroke="#334155"/>
+        <text x="200" y="232" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">curva di luce · calo di luminosità</text></svg>`,
+    plankton: () => `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Plancton visto al microscopio">
+        <defs><radialGradient id="bg3" cx=".5" cy=".5" r=".7"><stop offset="0" stop-color="#0e7490"/><stop offset="1" stop-color="#042f2e"/></radialGradient></defs>
+        <rect width="400" height="240" fill="url(#bg3)"/>
+        <g fill="none" stroke="#a5f3fc" stroke-width="2" opacity=".9">
+            <circle cx="110" cy="100" r="38"/><circle cx="110" cy="100" r="22" opacity=".6"/>
+            ${[0,45,90,135,180,225,270,315].map(a=>`<line x1="${110+38*Math.cos(a*Math.PI/180)}" y1="${100+38*Math.sin(a*Math.PI/180)}" x2="${110+54*Math.cos(a*Math.PI/180)}" y2="${100+54*Math.sin(a*Math.PI/180)}"/>`).join('')}
+            <path d="M260 60 q40 -30 70 5 q-10 40 -50 45 q-40 -5 -20 -50z" stroke="#86efac"/><path d="M280 75 q20 -10 35 5" stroke="#86efac" opacity=".7"/>
+            <ellipse cx="300" cy="175" rx="55" ry="20" transform="rotate(-18 300 175)" stroke="#fde68a"/><ellipse cx="300" cy="175" rx="30" ry="8" transform="rotate(-18 300 175)" stroke="#fde68a" opacity=".6"/>
+            <circle cx="170" cy="195" r="14" stroke="#f9a8d4"/><circle cx="170" cy="195" r="5" stroke="#f9a8d4"/>
+        </g>
+        <g fill="#cffafe" opacity=".75">${stars(36,400,240,11).replace(/fill="#fff"/g,'')}</g></svg>`,
+    ionosphere: () => `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Strati E ed F della ionosfera e onda radio riflessa">
+        <defs><linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070913"/><stop offset=".6" stop-color="#312e81"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
+        <rect width="400" height="240" fill="url(#sky5)"/>${stars(30,400,110,5)}
+        <rect x="0" y="40" width="400" height="26" fill="#a78bfa" opacity=".35"/><text x="14" y="58" fill="#ede9fe" font-size="11" font-family="sans-serif" font-weight="700">Strato F</text>
+        <rect x="0" y="98" width="400" height="16" fill="#f0abfc" opacity=".35"/><text x="14" y="110" fill="#fae8ff" font-size="11" font-family="sans-serif" font-weight="700">Strato E</text>
+        <path d="M70 205 L190 53 L310 205" fill="none" stroke="#fde047" stroke-width="2.5" stroke-dasharray="6 5"/>
+        <circle cx="190" cy="53" r="5" fill="#fde047"/>
+        <rect x="52" y="205" width="36" height="14" rx="3" fill="#0f172a"/><rect x="292" y="205" width="36" height="14" rx="3" fill="#0f172a"/>
+        <path d="M0 222 Q100 205 200 218 T400 214 V240 H0Z" fill="#064e3b"/>
+        <circle cx="352" cy="36" r="16" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="2">${[0,45,90,135,180,225,270,315].map(a=>`<line x1="${352+21*Math.cos(a*Math.PI/180)}" y1="${36+21*Math.sin(a*Math.PI/180)}" x2="${352+28*Math.cos(a*Math.PI/180)}" y2="${36+28*Math.sin(a*Math.PI/180)}"/>`).join('')}</g></svg>`,
+    waterfall: () => {
+        let rows = '';
+        for (let y = 0; y < 24; y++) for (let x = 0; x < 40; x++) {
+            const d = Math.abs(x - (8 + y * 1.1)), v = Math.max(0, 1 - d / 3) + (((x * 31 + y * 17) % 11) / 11) * .16;
+            const hue = 250 - v * 220;
+            rows += `<rect x="${x*10}" y="${y*10}" width="10" height="10" fill="hsl(${hue.toFixed(0)},85%,${(14+v*45).toFixed(0)}%)"/>`;
+        }
+        return `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Spettrogramma waterfall di un segnale radio">${rows}
+        <text x="200" y="232" fill="#e2e8f0" font-size="10" text-anchor="middle" font-family="sans-serif">spettrogramma waterfall · SDR</text></svg>`;
+    }
+};
+const visual = t => t.img
+    ? `<img src="${t.img}" alt="${t.alt}" loading="lazy" style="object-position:${t.pos || 'center'}">`
+    : arts[t.art]();
+
+/* ================= Render tavoli ================= */
+const grid = document.getElementById('tables-grid');
+let currentList = tablesData;
+
+function renderTables(filter = 'all') {
+    currentList = filter === 'all' ? tablesData : tablesData.filter(t => t.category === filter);
+    grid.innerHTML = '';
+    grid.scrollLeft = 0;
+    currentList.forEach((t, i) => {
+        const card = document.createElement('button');
+        card.className = 'card';
+        card.style.animationDelay = (i * 40) + 'ms';
+        card.setAttribute('aria-label', `${t.tag}: ${t.title}. Apri la scheda`);
+        card.innerHTML = `
+            <div class="card-img">${visual(t)}<span class="pill">${t.tag}</span><span class="ico" aria-hidden="true">${t.emoji}</span></div>
+            <div class="card-body">
+                <h3>${t.title}</h3>
+                <p class="cur">👤 ${t.curator}</p>
+                <p class="th">${t.themes}</p>
+            </div>
+            <div class="card-foot"><span>Scopri l'esperienza</span><span class="arrow">→</span></div>`;
+        card.addEventListener('click', () => openModal(t));
+        grid.appendChild(card);
+    });
+}
+
+document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    renderTables(btn.dataset.filter);
+}));
+
+/* ================= Modal ================= */
+const modal = document.getElementById('modal');
+const modalInner = document.getElementById('modal-inner');
+let lastFocus = null, openId = null;
+
+function openModal(t) {
+    lastFocus = document.activeElement;
+    openId = t.id;
+    const i = currentList.findIndex(x => x.id === t.id);
+    const prev = currentList[(i - 1 + currentList.length) % currentList.length];
+    const next = currentList[(i + 1) % currentList.length];
+    modalInner.innerHTML = `
+        <div class="modal-img">${visual(t)}</div>
+        <div class="modal-content">
+            <div class="modal-title">
+                <div class="ico" aria-hidden="true">${t.emoji}</div>
+                <div><span class="eyebrow">${t.tag}</span><h2 id="modal-title">${t.title}</h2></div>
+            </div>
+            <div class="cur-box"><strong>Curatore / Responsabile:</strong> ${t.curator}</div>
+            <div><h4>Temi Chiave</h4><p>${t.themes}</p></div>
+            <div><h4>Strumentazioni e Dati</h4><p>${t.tools}</p></div>
+            <div class="exp-box"><h4>🧪 Esperienza Interattiva</h4><p>${t.experience}</p></div>
+            <div class="modal-nav">
+                <button class="btn btn-line btn-sm" data-go="${prev.id}">← ${prev.tag}</button>
+                <button class="btn btn-primary btn-sm" onclick="closeModal()">Chiudi Scheda</button>
+                <button class="btn btn-line btn-sm" data-go="${next.id}">${next.tag} →</button>
+            </div>
+        </div>`;
+    modalInner.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => openModal(tablesData.find(x => x.id == b.dataset.go))));
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-box').scrollTop = 0;
+    modal.querySelector('.modal-close').focus();
+}
+function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+}
+document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Tab') { // focus trap
+        const f = [...modal.querySelectorAll('button')];
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+});
+
+/* ================= Checklist con salvataggio ================= */
+const checks = [...document.querySelectorAll('.checklist input')];
+const KEY = 'nexus-jo-checks';
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+function updateProgress() {
+    const done = checks.filter(c => c.checked).length;
+    document.getElementById('progress-text').textContent = `${done} / ${checks.length} completate`;
+    document.getElementById('progress-bar').style.width = (done / checks.length * 100) + '%';
+    try { localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(checks.map(c => [c.dataset.id, c.checked])))); } catch (e) {}
+}
+checks.forEach(c => { c.checked = !!saved[c.dataset.id]; c.addEventListener('change', updateProgress); });
+updateProgress();
+
+/* ================= Tema chiaro / scuro ================= */
+const root = document.documentElement, themeBtn = document.getElementById('theme-btn');
+function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    const dark = t === 'dark';
+    themeBtn.textContent = dark ? '☀️' : '🌙';
+    themeBtn.setAttribute('aria-label', dark ? 'Passa al tema chiaro' : 'Passa al tema scuro');
+}
+function toggleTheme() {
+    const t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(t);
+    try { localStorage.setItem('nexus-theme', t); } catch (e) {}
+}
+applyTheme(root.getAttribute('data-theme'));
+
+/* Campo di stelle (solo tema scuro) */
+const sc = document.getElementById('stars'), sx = sc.getContext('2d');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let sky = [];
+function drawSky(animate) {
+    sx.clearRect(0, 0, sc.width, sc.height); sx.fillStyle = '#fff';
+    sky.forEach(s => {
+        if (animate) { s.a += s.s; if (s.a > 1 || s.a < .1) s.s = -s.s; }
+        sx.globalAlpha = Math.min(1, Math.max(.1, s.a)) * .85;
+        sx.beginPath(); sx.arc(s.x, s.y, s.r, 0, 6.283); sx.fill();
+    });
+}
+function initSky() {
+    sc.width = innerWidth; sc.height = innerHeight;
+    sky = Array.from({ length: Math.round(innerWidth * innerHeight / 9000) }, () => ({
+        x: Math.random() * sc.width, y: Math.random() * sc.height, r: Math.random() * 1.3 + .2,
+        a: Math.random(), s: (Math.random() * .012 + .003) * (Math.random() < .5 ? 1 : -1)
+    }));
+    if (reduceMotion) drawSky(false);
+}
+function twinkle() {
+    if (root.getAttribute('data-theme') === 'dark') drawSky(true);
+    requestAnimationFrame(twinkle);
+}
+addEventListener('resize', initSky); initSky();
+if (!reduceMotion) twinkle();
+
+/* ================= Navigazione orizzontale ================= */
+const deck = document.getElementById('deck');
+const panels = [...deck.querySelectorAll('.panel')];
+const dotsEl = document.getElementById('dots');
+const prevBtn = document.getElementById('deck-prev'), nextBtn = document.getElementById('deck-next');
+let current = 0;
+
+panels.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.innerHTML = `<i></i><span>${p.dataset.title}</span>`;
+    b.setAttribute('aria-label', p.dataset.title);
+    b.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(b);
+});
+function goTo(i) {
+    i = Math.max(0, Math.min(panels.length - 1, i));
+    deck.scrollTo({ left: panels[i].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+function syncNav() {
+    current = Math.round(deck.scrollLeft / deck.clientWidth);
+    [...dotsEl.children].forEach((b, i) => b.setAttribute('aria-current', i === current));
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === panels.length - 1;
+    document.querySelectorAll('nav.desktop a[href^="#"], #mobile-menu a[href^="#"]').forEach(a => {
+        const t = document.querySelector(a.getAttribute('href'));
+        a.setAttribute('aria-current', !!t && panels[current].contains(t));
+    });
+}
+// carosello dei tavoli
+const carPrev = document.getElementById('car-prev'), carNext = document.getElementById('car-next');
+function updateCar() {
+    const max = grid.scrollWidth - grid.clientWidth;
+    carPrev.disabled = grid.scrollLeft <= 2;
+    carNext.disabled = grid.scrollLeft >= max - 2;
+}
+function carStep(dir) {
+    const card = grid.querySelector('.card');
+    grid.scrollBy({ left: dir * (card ? card.offsetWidth + 16 : 300) * 2, behavior: 'smooth' });
+}
+carPrev.addEventListener('click', () => carStep(-1));
+carNext.addEventListener('click', () => carStep(1));
+grid.addEventListener('scroll', updateCar, { passive: true });
+addEventListener('resize', updateCar);
+new MutationObserver(() => requestAnimationFrame(updateCar)).observe(grid, { childList: true });
+
+deck.addEventListener('scroll', () => requestAnimationFrame(syncNav), { passive: true });
+addEventListener('resize', () => { deck.style.scrollBehavior = 'auto'; deck.scrollLeft = panels[current].offsetLeft; deck.style.scrollBehavior = ''; syncNav(); });
+prevBtn.addEventListener('click', () => goTo(current - 1));
+nextBtn.addEventListener('click', () => goTo(current + 1));
+
+// i link interni (#sezione) portano al pannello corrispondente
+document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const t = document.querySelector(a.getAttribute('href'));
+    const panel = t && t.closest('.panel');
+    if (!panel) return;
+    e.preventDefault();
+    goTo(panels.indexOf(panel));
+});
+
+// tastiera: frecce sinistra/destra, Home/End
+document.addEventListener('keydown', e => {
+    if (modal.classList.contains('open') || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(panels.length - 1); }
+});
+
+// rotella del mouse: scorre il pannello in verticale finché serve, poi passa al successivo
+let wheelLock = 0;
+deck.addEventListener('wheel', e => {
+    if (modal.classList.contains('open')) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // trackpad orizzontale: gestito dal browser
+    // sopra il carosello la rotella scorre i tavoli lateralmente, finché ce ne sono
+    const car = e.target.closest && e.target.closest('.carousel');
+    if (car && car.scrollWidth > car.clientWidth + 2) {
+        const max = car.scrollWidth - car.clientWidth;
+        if ((e.deltaY > 0 && car.scrollLeft < max - 2) || (e.deltaY < 0 && car.scrollLeft > 2)) {
+            e.preventDefault();
+            car.scrollLeft += e.deltaY;
+            return;
+        }
+    }
+    const panel = panels[current];
+    const atTop = panel.scrollTop <= 0, atBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 2;
+    if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) return; // lascia scorrere in verticale
+    e.preventDefault();
+    const now = Date.now();
+    if (now - wheelLock < 700 || Math.abs(e.deltaY) < 8) return;
+    wheelLock = now;
+    goTo(current + (e.deltaY > 0 ? 1 : -1));
+}, { passive: false });
+syncNav();
+
+/* ================= Menu mobile ================= */
+function toggleMobileMenu() {
+    const open = document.getElementById('mobile-menu').classList.toggle('open');
+    document.getElementById('burger').setAttribute('aria-expanded', open);
+}
+
+/* ================= Countdown ================= */
+// Inizio attività: sabato 24 ottobre 2026, ore 16:00 (ora locale)
+const START = new Date(2026, 9, 24, 16, 0, 0), END = new Date(2026, 9, 24, 22, 30, 0);
+const cd = document.getElementById('countdown'), cdLabel = document.getElementById('cd-label');
+function tickCountdown() {
+    const now = new Date();
+    if (now >= END) { cdLabel.textContent = ''; cd.innerHTML = '<strong>Grazie per aver vissuto la serata sotto le stelle! 🌌</strong>'; return; }
+    if (now >= START) { cdLabel.textContent = ''; cd.innerHTML = '<strong>🔭 La serata è in corso: buon divertimento, Jo!</strong>'; return; }
+    let s = Math.floor((START - now) / 1000);
+    const d = Math.floor(s / 86400); s %= 86400;
+    const h = Math.floor(s / 3600); s %= 3600;
+    const m = Math.floor(s / 60); s %= 60;
+    cd.innerHTML = [['giorni', d], ['ore', h], ['min', m], ['sec', s]]
+        .map(([l, v]) => `<div class="cd"><b>${String(v).padStart(2, '0')}</b><small>${l}</small></div>`).join('');
+}
+tickCountdown(); setInterval(tickCountdown, 1000);
+
+/* ================= Auguri + coriandoli ================= */
+const greetings = [
+    "Buon compleanno Jo! Che la tua vita sia luminosa come una supernova e affascinante come il cielo di Monte Viseggi!",
+    "Brindiamo a te, Jo! Che ogni tua aspirazione scientifica e personale raggiunga i confini più remoti dell'Universo!",
+    "Tanti auguri di cuore, Jo! Che questa serata tra le stelle dell'Osservatorio sia solo l'inizio di un anno memorabile!",
+    "Buon compleanno Jo! Scienza, persone, territorio e... festeggiamenti stellari per te sotto la Via Lattea!"
+];
+let lastGreeting = 0;
+function generateNewGreeting() {
+    const box = document.getElementById('greeting-box');
+    let i; do { i = Math.floor(Math.random() * greetings.length); } while (i === lastGreeting);
+    lastGreeting = i;
+    box.style.opacity = 0;
+    setTimeout(() => { box.textContent = `"${greetings[i]}"`; box.style.opacity = 1; }, 200);
+    triggerSurprise();
+}
+
+const cv = document.getElementById('confetti'), cx = cv.getContext('2d');
+let parts = [], raf = null;
+function sizeCv() { cv.width = innerWidth; cv.height = innerHeight; }
+addEventListener('resize', sizeCv); sizeCv();
+function triggerSurprise() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const colors = ['#0ea5e9', '#a855f7', '#fb923c', '#f43f5e', '#facc15', '#22c55e'];
+    for (let i = 0; i < 160; i++) {
+        const a = -Math.PI / 2 + (Math.random() - .5) * 1.6, v = 8 + Math.random() * 12;
+        parts.push({ x: cv.width / 2, y: cv.height * .62, vx: Math.cos(a) * v, vy: Math.sin(a) * v, w: 6 + Math.random() * 6, h: 4 + Math.random() * 6,
+            r: Math.random() * 6, vr: (Math.random() - .5) * .4, c: colors[i % colors.length], star: Math.random() < .25, life: 0 });
+    }
+    if (!raf) raf = requestAnimationFrame(stepConfetti);
+}
+function stepConfetti() {
+    cx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(p => p.y < cv.height + 20 && p.life < 260);
+    parts.forEach(p => {
+        p.vy += .28; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.fillStyle = p.c; cx.globalAlpha = Math.max(0, 1 - p.life / 260);
+        if (p.star) { cx.beginPath(); for (let k = 0; k < 10; k++) { const rad = k % 2 ? 3 : 8; cx.lineTo(Math.cos(k * Math.PI / 5) * rad, Math.sin(k * Math.PI / 5) * rad); } cx.fill(); }
+        else cx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        cx.restore();
+    });
+    raf = parts.length ? requestAnimationFrame(stepConfetti) : (cx.clearRect(0, 0, cv.width, cv.height), null);
+}
+
+renderTables('all');
+</script>
+</body>
+</html>
