@@ -505,6 +505,18 @@ footer .credits {
     .modal-title h2 { font-size: 1.3rem; }
     .modal-content h4 { font-size: .74rem; margin-bottom: 2px; }
 }
+
+/* Galleria: card cliccabili */
+.strip figure { cursor: pointer; }
+.strip figure::after {
+    content: "Scopri →"; position: absolute; top: 12px; right: 12px; padding: 5px 12px; border-radius: 999px;
+    background: var(--glass); color: var(--cyan); font-size: .72rem; font-weight: 800;
+    opacity: 0; transform: translateY(-4px); transition: opacity .25s, transform .25s;
+}
+.strip figure:hover::after, .strip figure:focus-visible::after { opacity: 1; transform: none; }
+.strip figure:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+@media (hover: none) { .strip figure::after { opacity: 1; transform: none; } }
+.todo-note { font-size: .74rem; color: var(--ink-3); font-style: italic; }
 </style>
 </head>
 <body>
@@ -587,10 +599,10 @@ footer .credits {
             <h2>Le Meraviglie dell'Universo ✨</h2>
         </div>
         <div class="strip">
-            <figure><img src="assets/sun.jpg" alt="Il Sole ripreso nell'ultravioletto dal Solar Dynamics Observatory" loading="lazy"><figcaption>☀️ Il Sole · NASA/SDO</figcaption></figure>
-            <figure><img src="assets/pillars.jpg" alt="I Pilastri della Creazione nella Nebulosa Aquila" loading="lazy"><figcaption>🌌 Pilastri della Creazione · Hubble</figcaption></figure>
-            <figure><img src="assets/m31.jpg" alt="La Galassia di Andromeda" loading="lazy"><figcaption>🔭 Galassia di Andromeda · cielo d'autunno</figcaption></figure>
-            <figure><img src="assets/moon.jpg" alt="La Luna piena" loading="lazy"><figcaption>🌕 La Luna</figcaption></figure>
+            <figure tabindex="0" role="button" data-g="0" aria-label="Apri la scheda: Il Sole"><img src="assets/sun.jpg" alt="Il Sole ripreso nell'ultravioletto dal Solar Dynamics Observatory" loading="lazy"><figcaption>☀️ Il Sole · NASA/SDO</figcaption></figure>
+            <figure tabindex="0" role="button" data-g="1" aria-label="Apri la scheda: Pilastri della Creazione"><img src="assets/pillars.jpg" alt="I Pilastri della Creazione nella Nebulosa Aquila" loading="lazy"><figcaption>🌌 Pilastri della Creazione · Hubble</figcaption></figure>
+            <figure tabindex="0" role="button" data-g="2" aria-label="Apri la scheda: Galassia di Andromeda"><img src="assets/m31.jpg" alt="La Galassia di Andromeda" loading="lazy"><figcaption>🔭 Galassia di Andromeda · cielo d'autunno</figcaption></figure>
+            <figure tabindex="0" role="button" data-g="3" aria-label="Apri la scheda: La Luna"><img src="assets/moon.jpg" alt="La Luna piena" loading="lazy"><figcaption>🌕 La Luna</figcaption></figure>
         </div>
     </section>
 
@@ -900,7 +912,7 @@ const modalInner = document.getElementById('modal-inner');
 let lastFocus = null, openId = null;
 
 function openModal(t) {
-    lastFocus = document.activeElement;
+    if (!modal.classList.contains('open')) lastFocus = document.activeElement;
     openId = t.id;
     const i = currentList.findIndex(x => x.id === t.id);
     const prev = currentList[(i - 1 + currentList.length) % currentList.length];
@@ -928,6 +940,59 @@ function openModal(t) {
     modal.querySelector('.modal-box').scrollTop = 0;
     modal.querySelector('.modal-close').focus();
 }
+
+/* ================= Galleria: schede delle immagini ================= */
+// I testi sono segnaposto (lorem ipsum): sostituire "sections" e "box" con quelli veri.
+const galleryData = [
+    { id: 0, title: "Il Sole", short: "Sole", emoji: "☀️", img: "assets/sun.jpg", alt: "Il Sole ripreso nell'ultravioletto dal Solar Dynamics Observatory", pos: "center",
+      credit: "NASA/SDO",
+      sections: [
+        { h: "Di cosa parleremo", p: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+        { h: "Da non perdere", p: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." }
+      ],
+      box: { h: "🌞 Curiosità", p: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." } },
+    { id: 1, title: "Pilastri della Creazione", short: "Pilastri", emoji: "🌌", img: "assets/pillars.jpg", alt: "I Pilastri della Creazione nella Nebulosa Aquila", pos: "center",
+      credit: "NASA/ESA/Hubble", sections: [], box: null },
+    { id: 2, title: "Galassia di Andromeda", short: "Andromeda", emoji: "🔭", img: "assets/m31.jpg", alt: "La Galassia di Andromeda", pos: "center",
+      credit: "Adam Evans (CC BY 2.0)", sections: [], box: null },
+    { id: 3, title: "La Luna", short: "Luna", emoji: "🌕", img: "assets/moon.jpg", alt: "La Luna piena", pos: "center",
+      credit: "Gregory H. Revera (CC BY-SA 3.0)", sections: [], box: null }
+];
+
+function openGallery(item) {
+    if (!modal.classList.contains('open')) lastFocus = document.activeElement;
+    const n = galleryData.length;
+    const prev = galleryData[(item.id - 1 + n) % n], next = galleryData[(item.id + 1) % n];
+    const blocks = item.sections.map(x => `<div><h4>${x.h}</h4><p>${x.p}</p></div>`).join('');
+    const box = item.box ? `<div class="exp-box"><h4>${item.box.h}</h4><p>${item.box.p}</p></div>` : '';
+    const empty = item.sections.length ? '' : '<p class="todo-note">Descrizione in arrivo.</p>';
+    modalInner.innerHTML = `
+        <div class="modal-img"><img src="${item.img}" alt="${item.alt}" style="object-position:${item.pos}"></div>
+        <div class="modal-content">
+            <div class="modal-title">
+                <div class="ico" aria-hidden="true">${item.emoji}</div>
+                <div><span class="eyebrow">Le Meraviglie dell'Universo</span><h2 id="modal-title">${item.title}</h2></div>
+            </div>
+            <div class="cur-box"><strong>Immagine:</strong> ${item.credit}</div>
+            ${blocks}${box}${empty}
+            <div class="modal-nav">
+                <button class="btn btn-line btn-sm" data-gal="${prev.id}">← ${prev.short}</button>
+                <button class="btn btn-primary btn-sm" onclick="closeModal()">Chiudi Scheda</button>
+                <button class="btn btn-line btn-sm" data-gal="${next.id}">${next.short} →</button>
+            </div>
+        </div>`;
+    modalInner.querySelectorAll('[data-gal]').forEach(b => b.addEventListener('click', () => openGallery(galleryData[b.dataset.gal])));
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-box').scrollTop = 0;
+    modal.querySelector('.modal-close').focus();
+}
+document.querySelectorAll('.strip figure').forEach(f => {
+    const open = () => openGallery(galleryData[f.dataset.g]);
+    f.addEventListener('click', open);
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+});
+
 function closeModal() {
     modal.classList.remove('open');
     document.body.style.overflow = '';
