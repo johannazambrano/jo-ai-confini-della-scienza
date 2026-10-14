@@ -364,21 +364,26 @@ footer .credits { max-width: 900px; margin: 22px auto 0; padding-top: 18px; bord
 .note p:last-child { font-size: clamp(.74rem, 1.8vh, .9rem); }
 .hero p.lead { font-size: clamp(.78rem, 1.9vh, .98rem); line-height: 1.5; }
 .hero-visual { min-height: 0 !important; }
-.saturn { width: min(88%, 460px); margin-top: 56px; }
+.hero-visual { padding: 118px 8px 98px; }
+.saturn { width: min(118%, 600px); max-height: 100%; object-fit: contain; mix-blend-mode: lighten; filter: none; }
 .cd-wrap { position: absolute; z-index: 2; left: 16px; right: 16px; top: 16px; padding: 10px 14px; border-radius: 16px; background: var(--glass); backdrop-filter: blur(8px); display: grid; gap: 6px; }
 .cd-wrap .countdown { gap: 8px; }
 .cd { min-width: 0; flex: 1; padding: 6px 8px; border-radius: 12px; }
 .cd b { font-size: 1.25rem; }
 .cd-wrap strong { font-size: .9rem; }
 
+/* Altezza condivisa da strisce (Galleria), fasi (Itinerario) e schede (Tavoli) */
+:root { --row-h: clamp(260px, 52vh, 480px); }
+
 /* Galleria */
-.strip { grid-template-columns: repeat(4, 1fr); height: clamp(240px, 58vh, 540px); }
+.strip { grid-template-columns: repeat(4, 1fr); height: var(--row-h); }
 .strip figure { aspect-ratio: auto; height: 100%; }
 .strip figcaption { font-size: clamp(.74rem, 1.8vh, .95rem); padding: 36px 14px 12px; }
 @media (max-width: 700px) { .strip { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); } }
 
 /* Itinerario */
 .phases { gap: 16px; }
+@media (min-width: 900px) { .phase { height: var(--row-h); } }
 .phase-art { height: clamp(50px, 9vh, 90px); font-size: clamp(1.8rem, 4.6vh, 2.6rem); }
 .phase-art .time { top: 8px; right: 8px; padding: 3px 10px; font-size: .7rem; }
 .phase-body { padding: clamp(10px, 2vh, 18px) 18px; gap: 6px; }
@@ -399,7 +404,7 @@ footer .credits { max-width: 900px; margin: 22px auto 0; padding-top: 18px; bord
 .car-nav button:hover:not([disabled]) { border-color: var(--cyan); color: var(--cyan); }
 .car-nav button[disabled] { opacity: .35; cursor: default; }
 .carousel { display: flex; gap: 16px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; padding: 10px 4px 18px; margin: -10px -4px 0; scrollbar-width: thin; scrollbar-color: var(--line) transparent; overscroll-behavior-x: auto; }
-.carousel .card { flex: 0 0 min(300px, 78vw); scroll-snap-align: start; }
+.carousel .card { flex: 0 0 min(300px, 78vw); height: var(--row-h); scroll-snap-align: start; }
 .card-img { height: clamp(90px, 20vh, 170px); }
 .card-body { padding: 12px 16px 6px; gap: 5px; }
 .card h3 { font-size: clamp(.95rem, 2.3vh, 1.1rem); }
@@ -409,7 +414,10 @@ footer .credits { max-width: 900px; margin: 22px auto 0; padding-top: 18px; bord
 
 /* Logistica */
 .info-grid { gap: 16px; }
-.info { padding: clamp(14px, 2.6vh, 24px); gap: clamp(6px, 1.5vh, 12px); }
+.info { display: flex; flex-direction: column; padding: clamp(14px, 2.6vh, 24px); gap: clamp(6px, 1.5vh, 12px); }
+.info .ico { align-self: flex-start; }
+.info .tip { margin-top: auto; }
+@media (min-width: 900px) { .info { height: var(--row-h); } }
 .info .ico { width: 40px; height: 40px; font-size: 1.25rem; border-radius: 12px; }
 .info h3 { font-size: clamp(1rem, 2.5vh, 1.25rem); }
 .info p { font-size: clamp(.78rem, 1.8vh, .9rem); line-height: 1.45; }
@@ -575,7 +583,7 @@ footer .credits {
             </div>
         </div>
         <div class="hero-visual">
-            <img class="saturn" src="assets/saturn.jpg" alt="Saturno e i suoi anelli, ripreso dalla sonda Cassini" width="1280" height="620" style="mask-image: radial-gradient(ellipse at center, #000 55%, transparent 72%); -webkit-mask-image: radial-gradient(ellipse at center, #000 55%, transparent 72%);">
+            <img class="saturn" src="assets/saturn.jpg" alt="Saturno e i suoi anelli, ripreso dalla sonda Cassini" width="1280" height="620">
             <div class="cd-wrap">
                 <div class="cd-label" id="cd-label">Mancano all'inizio delle attività</div>
                 <div class="countdown" id="countdown" aria-live="off"></div>
@@ -942,21 +950,36 @@ function openModal(t) {
 }
 
 /* ================= Galleria: schede delle immagini ================= */
-// I testi sono segnaposto (lorem ipsum): sostituire "sections" e "box" con quelli veri.
+// Sole e Luna: testi tratti dalla pagina Eventbrite dell'evento. Pilastri e Andromeda: testi divulgativi generali.
 const galleryData = [
     { id: 0, title: "Il Sole", short: "Sole", emoji: "☀️", img: "assets/sun.jpg", alt: "Il Sole ripreso nell'ultravioletto dal Solar Dynamics Observatory", pos: "center",
       credit: "NASA/SDO",
       sections: [
-        { h: "Di cosa parleremo", p: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { h: "Da non perdere", p: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." }
+        { h: "Di cosa parleremo", p: "Eliofisica, dinamica delle strutture magnetiche solari e ciclo d'attività della nostra stella, al Tavolo 7 «Il Sole Vivo»." },
+        { h: "Da non perdere", p: "Osservazione diretta e in piena sicurezza della cromosfera con il telescopio H-alpha dell'Istituto Culturale Astrofili Spezzini: protuberanze, filamenti, macchie solari e brillamenti. Si osserva nel pomeriggio, finché c'è luce." }
       ],
-      box: { h: "🌞 Curiosità", p: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." } },
+      box: { h: "🌞 Curiosità", p: "La luce del Sole impiega circa 8 minuti e 20 secondi per arrivare fino a noi. Il Sole da solo contiene oltre il 99% della massa dell'intero Sistema Solare, e la sua attività si ripete in cicli di circa 11 anni." } },
     { id: 1, title: "Pilastri della Creazione", short: "Pilastri", emoji: "🌌", img: "assets/pillars.jpg", alt: "I Pilastri della Creazione nella Nebulosa Aquila", pos: "center",
-      credit: "NASA/ESA/Hubble", sections: [], box: null },
+      credit: "NASA/ESA/Hubble",
+      sections: [
+        { h: "Di cosa si tratta", p: "Colonne di gas e polveri nella Nebulosa Aquila (M16), a circa 7.000 anni luce da noi. Sono una «culla» di stelle: qui il gas freddo si addensa e dà origine a nuovi soli." },
+        { h: "Perché è famosa", p: "Hubble la fotografò nel 1995 e tornò a riprenderla nel 2014. Il telescopio spaziale James Webb l'ha poi osservata anche all'infrarosso, svelando le stelle nascoste dentro le polveri." }
+      ],
+      box: { h: "✨ Curiosità", p: "Il pilastro più alto è lungo circa 4-5 anni luce. La luce che oggi vediamo è partita migliaia di anni fa, quindi è un'immagine del passato." } },
     { id: 2, title: "Galassia di Andromeda", short: "Andromeda", emoji: "🔭", img: "assets/m31.jpg", alt: "La Galassia di Andromeda", pos: "center",
-      credit: "Adam Evans (CC BY 2.0)", sections: [], box: null },
+      credit: "Adam Evans (CC BY 2.0)",
+      sections: [
+        { h: "Di cosa si tratta", p: "M31 è la grande galassia a spirale più vicina alla nostra, a circa 2,5 milioni di anni luce, e contiene centinaia di miliardi di stelle." },
+        { h: "Da non perdere", p: "In autunno è alta nel cielo già nelle ore serali, tra Cassiopea e Pegasus. Da un luogo buio è visibile anche a occhio nudo come una debole macchia luminosa allungata." }
+      ],
+      box: { h: "🔭 Curiosità", p: "Andromeda si avvicina alla Via Lattea a circa 110 km al secondo: tra qualche miliardo di anni le due galassie si fonderanno." } },
     { id: 3, title: "La Luna", short: "Luna", emoji: "🌕", img: "assets/moon.jpg", alt: "La Luna piena", pos: "center",
-      credit: "Gregory H. Revera (CC BY-SA 3.0)", sections: [], box: null }
+      credit: "Gregory H. Revera (CC BY-SA 3.0)",
+      sections: [
+        { h: "Di cosa parleremo", p: "Esplorazione spaziale umana e robotica: programma Artemis, stazione cislunare Gateway e basi lunari (Tavolo 8 «Frontiera Spazio», con Claudio Cosci e Silvia Beghi)." },
+        { h: "Da non perdere", p: "Al Tavolo 9 «Moon Base – Costruisci il Futuro» bambini e famiglie progettano, bilanciano e assemblano una base lunare autosufficiente: energia, habitat, acqua e ossigeno." }
+      ],
+      box: { h: "🌙 Curiosità", p: "Rivolge sempre la stessa faccia alla Terra e si allontana da noi di circa 3,8 centimetri all'anno. Sulla Luna l'acqua si cerca nei crateri polari sempre in ombra, un'informazione chiave per le future basi." } }
 ];
 
 function openGallery(item) {
