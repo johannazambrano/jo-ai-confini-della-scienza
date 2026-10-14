@@ -525,6 +525,9 @@ footer .credits {
 .strip figure:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
 @media (hover: none) { .strip figure::after { opacity: 1; transform: none; } }
 .todo-note { font-size: .74rem; color: var(--ink-3); font-style: italic; }
+
+/* Testi giustificati (con sillabazione per evitare spazi troppo larghi nelle colonne strette) */
+p:not(.tagline):not(.tg):not(.cur), .tip, .checklist span.d { text-align: justify; hyphens: auto; }
 </style>
 </head>
 <body>
