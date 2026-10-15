@@ -496,6 +496,8 @@ footer .credits {
 }
 /* Su schermi stretti i crediti vanno a capo su più righe: restano nel flusso, sotto le righe del footer */
 @media (max-width: 899px) { footer .credits { position: static; margin: 10px auto 0; padding: 0; } }
+/* Sul telefono i crediti delle immagini non si mostrano (si sovrapponevano al footer) */
+@media (max-width: 599px) { footer .credits { display: none; } }
 
 /* Schede dei tavoli: a due colonne (immagine + testo), così stanno nello schermo senza scroll */
 .modal-box { max-height: 96vh; }
@@ -532,6 +534,8 @@ footer .credits {
 
 /* Testi giustificati da 600px in su (con sillabazione); sul telefono le colonne sono troppo strette */
 @media (min-width: 600px) {
+    /* Introduzione di 2 righe: righe bilanciate e anche l'ultima giustificata, così il blocco si vede pieno */
+    #surprise .sec-head p { max-width: 580px; text-wrap: balance; text-align-last: justify; }
     p:not(.tagline):not(.tg):not(.cur):not(.centered), .tip, .checklist span.d, #greeting-box, footer .credits { text-align: justify; hyphens: auto; }
 }
 </style>
